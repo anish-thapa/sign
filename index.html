@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create beautiful digital signatures with professional tools.">
+    <meta name="keywords" content="signature, digital signature, signature studio, online signature, create signature">
+    <meta property="og:image" content="1.jpg" />
+
+     <title>Signature Studio - Modern Signature Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="shortcut icon" href="1.jpg" type="image/x-icon">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col items-center">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-indigo-700 mb-2">Signature Studio</h1>
+                <p class="text-gray-600">Create beautiful digital signatures with professional tools</p>
+            </div>
+            
+            <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden fade-in">
+                <div class="p-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-semibold">Signature Canvas</h2>
+                        <div class="flex space-x-2">
+                            <button id="clear-btn" class="tooltip px-3 py-1 bg-white bg-opacity-20 rounded-md hover:bg-opacity-30 transition">
+                                <i class="fas fa-eraser"></i>
+                                <span class="tooltip-text">Clear Canvas</span>
+                            </button>
+                            <button id="undo-btn" class="tooltip px-3 py-1 bg-white bg-opacity-20 rounded-md hover:bg-opacity-30 transition">
+                                <i class="fas fa-undo"></i>
+                                <span class="tooltip-text">Undo</span>
+                            </button>
+                            <button id="redo-btn" class="tooltip px-3 py-1 bg-white bg-opacity-20 rounded-md hover:bg-opacity-30 transition">
+                                <i class="fas fa-redo"></i>
+                                <span class="tooltip-text">Redo</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4">
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-700">Tool:</span>
+                            <div class="flex bg-gray-100 rounded-md">
+                                <button id="pen-btn" class="px-3 py-1 rounded-l-md bg-indigo-600 text-white tooltip">
+                                    <i class="fas fa-pen"></i>
+                                    <span class="tooltip-text">Pen Tool</span>
+                                </button>
+                                <button id="eraser-btn" class="px-3 py-1 rounded-r-md hover:bg-gray-200 tooltip">
+                                    <i class="fas fa-eraser"></i>
+                                    <span class="tooltip-text">Eraser</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-700">Color:</span>
+                            <div class="flex space-x-1">
+                                <button data-color="#000000" class="w-6 h-6 rounded-full bg-black border-2 border-gray-300 focus:ring-2 focus:ring-indigo-500"></button>
+                                <button data-color="#1E40AF" class="w-6 h-6 rounded-full bg-blue-800 border-2 border-gray-300 focus:ring-2 focus:ring-indigo-500"></button>
+                                <button data-color="#991B1B" class="w-6 h-6 rounded-full bg-red-800 border-2 border-gray-300 focus:ring-2 focus:ring-indigo-500"></button>
+                                <button data-color="#065F46" class="w-6 h-6 rounded-full bg-green-800 border-2 border-gray-300 focus:ring-2 focus:ring-indigo-500"></button>
+                                <button data-color="#92400E" class="w-6 h-6 rounded-full bg-yellow-800 border-2 border-gray-300 focus:ring-2 focus:ring-indigo-500"></button>
+                            </div>
+                            <input type="color" id="custom-color" class="w-8 h-8 border-0 rounded cursor-pointer" value="#000000">
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-700">Size:</span>
+                            <input type="range" id="pen-size" min="1" max="20" value="3" class="w-24">
+                            <span id="size-value" class="text-sm text-gray-600">3px</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-700">Opacity:</span>
+                            <input type="range" id="pen-opacity" min="10" max="100" value="100" class="w-24">
+                            <span id="opacity-value" class="text-sm text-gray-600">100%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-2 border-gray-200 rounded-lg overflow-hidden">
+                        <canvas id="signature-pad" class="signature-pad w-full h-64 md:h-96 pen-cursor"></canvas>
+                    </div>
+                    
+                    <div class="mt-4 flex flex-wrap gap-3 justify-center">
+                        <button id="download-png" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Download PNG</span>
+                        </button>
+                        <button id="download-svg" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition flex items-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Download SVG</span>
+                        </button>
+                        <button id="save-signature" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition flex items-center space-x-2">
+                            <i class="fas fa-save"></i>
+                            <span>Save to Library</span>
+                        </button>
+                        <button id="copy-clipboard" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center space-x-2">
+                            <i class="fas fa-copy"></i>
+                            <span>Copy to Clipboard</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden fade-in">
+                <div class="p-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+                    <h2 class="text-xl font-semibold">Signature Library</h2>
+                </div>
+                <div class="p-4">
+                    <div id="signature-library" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center text-gray-500 py-8 col-span-4">
+                            <i class="fas fa-signature text-4xl mb-2"></i>
+                            <p>Your saved signatures will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-gray-500 text-sm">
+                <p>Craft your perfect digital signature with ease</p>
+                <p class="mt-1">© <span id="copyright-year"></span> Signature Studio. All rights reserved.</p>
+                <script>
+                    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+                </script>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+<script src="script.js"></script>
+</html>
